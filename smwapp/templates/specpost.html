@@ -1,80 +1,154 @@
 {% extends 'base.html' %}
-
 {% block title %}
-    {{post.status}}
+{{post.status}}
 {% endblock title %}
-
 
 {% block content %}
 {% load humanize %}
 
-<div class="container border shadow-lg p-3 mb-5 bg-white rounded">
-    
-    @{{post.user}}
-    &#10084; {{post.no_of_likes}} 
-    <hr>
-        <b> {{post.status}}</b>
-        <hr>
-        {{post.posted_date | naturaltime}}
-
-        <br><br>
-        
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Main Post Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                    {{ post.user.username|first|upper }}
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5 class="mb-0 fw-bold">@{{post.user}}</h5>
+                                <small class="text-muted">{{post.posted_date | naturaltime}}</small>
+                            </div>
+                        </div>
+                        
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="postOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                More options
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="postOptions">
+                                {% if post.user == request.user %}
+                                <li><a class="dropdown-item" href="{% url 'editpost' slug=post.slug %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square me-2" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                    </svg>
+                                    Edit
+                                </a></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'delete' slug=post.slug %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash me-2" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                    </svg>
+                                    Delete
+                                </a></li>
+                                {% else %}
+                                <li><span class="dropdown-item-text text-muted">You are not the author of this post</span></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <p class="fs-5 fw-bold">{{post.status}}</p>
+                </div>
+                
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            {% if liked %}
+                            <a href="{% url 'like' slug=post.slug %}" class="btn btn-sm btn-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill me-1" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                                Unlike
+                            </a>
+                            {% else %}
+                            <a href="{% url 'like' slug=post.slug %}" class="btn btn-sm btn-outline-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart me-1" viewBox="0 0 16 16">
+                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                </svg>
+                                Like
+                            </a>
+                            {% endif %}
+                            <span class="ms-2 text-muted">{{post.no_of_likes}} likes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            {% if liked %}
+            <!-- Comments Section -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Comments</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% for c in comments %}
+                    <div class="p-3 border-bottom">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                                    {{ c.user.username|first|upper }}
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0 fw-bold">@{{c.user}}</h6>
+                                    <small class="text-muted">{{c.posted_date | naturaltime}}</small>
+                                </div>
+                                <p class="mb-2">{{c.comment}}</p>
+                                {% if c.user == request.user %}
+                                <a href="{% url 'deletecomment' id=c.id %}" class="text-danger small">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                    </svg>
+                                    Delete
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="p-4 text-center text-muted">
+                        <p class="mb-0">No comments yet. Be the first to comment!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
             
-            <a href="{% url 'like' slug=post.slug %}" style="text-decoration: none; size: 700px;">unlike</a> <br> &#x2611;
-            {% else %}
-            <a href="{% url 'like' slug=post.slug %}" style="text-decoration: none; size: 700px;">like</a> <br>
-            {% endif %}
-        <button data-bs-toggle="collapse" data-bs-target="#demo">More options</button>
-
-<div id="demo" class="collapse">
-<ul>
-    
-    {% if post.user == request.user %}
-        
-    
-    <li><a href="{% url 'editpost' slug=post.slug %}">Edit</a></li>
-    <li><a href="{% url 'delete' slug=post.slug %}">Delete</a></li>
-    {% else %}
-    you are not user of this post
-    {% endif %}
-</ul>
-</div>
-    </div>
-<hr>
-<b>comments</b>
-<hr>
-{% for c in comments %}
-    <div class="container border">
-        <b>@{{c.user}}</b> <br>
-        {{c.comment}} <br> <br>
-       <i> {{c.posted_date | naturaltime}}</i> <br> <br>
-       
-       {% if c.user == request.user %}
-        <a href="{% url 'deletecomment' id=c.id %}">delete</a>
-       {% endif %}
-        
-    </div>
-{% endfor %}
-<br> <br>
-   <center> 
-<div class="container border shadow-lg p-3 mb-5 bg-white rounded">
-    <form action="" method="post">
-      {% csrf_token %}
-          {{form.error}}
-        {% for fields in form %}
-        <div class="mb-3 mt-3">
-          {{fields.label}} <br>
-          {{fields}}
+            <!-- Comment Form -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Add a Comment</h5>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            {% if field.label %}
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {% endif %}
+                            {{ field }}
+                            {% if field.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ field.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Post Comment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-primary">Post</button>
-    </form>
-</center>
     </div>
-
-
-
+</div>
 {% endblock content %}
-    

@@ -24,10 +24,11 @@ urlpatterns = [
     path('login/', views.loginpage, name = "loginpage"),
     path('logout/', views.logoutpage, name = "logout"),
     path('addpost/', views.addpostview, name = "addpost"),
-    path('post/<slug>', views.specific_post, name = "post"),
-    path('like/<slug>', views.likedview, name = "like"),
-    path('edit/<slug>', views.editpost, name = "editpost"),
-    path('delete/<slug>', views.deletepost, name = 'delete'),
-    path('deletecomment/<id>', views.deletecomment, name = 'deletecomment'),
+    path('post/<slug>/', views.specific_post, name = "post"),
+    path('like/<slug>/', views.likedview, name = "like"),
+    path('edit/<slug>/', views.editpost, name = "editpost"),
+    path('delete/<slug>/', views.deletepost, name = 'delete'),
+    path('deletecomment/<id>/', views.deletecomment, name = 'deletecomment'),
     path('mytweets/', views.mytweets, name = 'mytweets'),
+    path('about/',views.aboutpage, name='about')
 ]

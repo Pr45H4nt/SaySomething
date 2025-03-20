@@ -1,34 +1,52 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Login
+Login
 {% endblock title %}
-    
 
 {% block content %}
-<center>
-<h1>Login Here</h1></center>
-<center>
-    <div class="container border shadow-lg p-3 mb-5 bg-white rounded">
-    <form action="" method="post">
-      {% csrf_token %}
-          {{form.error}}
-        {% for fields in form %}
-        <div class="mb-3 mt-3">
-          {{fields.label}} <br>
-          {{fields}}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h4 class="mb-0">Login to Your Account</h4>
+            </div>
+            <div class="card-body p-4">
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    Please correct the errors below.
+                </div>
+                {% endif %}
+                
+                <form action="" method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label fw-bold">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ field.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary py-2">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer bg-light py-3 text-center">
+                <p class="mb-0">
+                    Don't have an account? 
+                    <a href="{% url 'register' %}" class="btn btn-danger ms-2">Create a New Account</a>
+                </p>
+            </div>
         </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-      <br><br><br>Don't have an account? <a href="{% url 'register' %}"><Button class="btn btn-danger">Create a New Account</Button></a>
     </div>
-    </center>
-    
-
-
-
-
-
+</div>
 {% endblock content %}
-    

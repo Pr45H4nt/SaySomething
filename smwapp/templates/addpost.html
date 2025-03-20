@@ -1,27 +1,50 @@
-{% extends 'base.html' %} 
-{% block title %}
-    Add Post
-{% endblock title %}
-    
+{% extends 'base.html' %}
+{% block title %}Add Post{% endblock title %}
 
 {% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg p-3 mb-5 bg-body rounded">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Add Post</h2>
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-danger mb-4">
+                        <strong>Error:</strong> Please correct the issues below.
+                    </div>
+                    {% endif %}
 
-    <center>
-        <h1>Add Post</h1></center>
-        <center>
-            <div class="container border shadow-lg p-3 mb-5 bg-white rounded">
-            <form action="" method="post">
-              {% csrf_token %}
-                  {{form.error}}
-                {% for fields in form %}
-                <div class="mb-3 mt-3">
-                  {{fields.label}} <br>
-                  {{fields}}
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">
+                                {{ field.label }}
+                            </label>
+                            
+                            {{ field }}
+                            
+                            {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            
+                            {% for error in field.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Create Post
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">Post</button>
-            </form>
             </div>
-            </center>
+        </div>
+    </div>
+</div>
 {% endblock content %}
-    

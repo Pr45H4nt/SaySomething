@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}About the Creator{% endblock title %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-4 text-center">
+            <img src="https://png.pngtree.com/png-clipart/20230913/original/pngtree-coder-clipart-boy-working-with-computer-game-on-the-desk-vector-png-image_11072679.png" 
+                 class="img-fluid rounded-circle shadow-lg mb-3" 
+                 alt="Code Wizard at Work" 
+                 style="border: 5px solid #0d6efd;">
+        </div>
+        <div class="col-md-8">
+            <h1 class="display-4 fw-bold mb-3">
+                Hi, I'm Prashant 👋
+                <span class="text-primary">|</span> 
+                <small class="text-muted fs-4">Professional Coffee Consumer ☕</small>
+            </h1>
+            <div class="alert alert-warning shadow-sm">
+                <strong>⚠️ Warning:</strong> Contains 100% organic, free-range code. May include traces of dad jokes.
+            </div>
+        </div>
+    </div>
+
+    <!-- Origin Story -->
+    <div class="card border-0 shadow-lg mb-5">
+        <div class="card-body p-5">
+            <h2 class="display-6 mb-4">🚀 How This Madness Began</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>2022</h3>
+                    <p>Had a "brilliant" idea to build this webapp between coffee breaks and debugging sessions</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>2023</h3>
+                    <p>Discovered that <del>copy-pasting from Stack Overflow</del> "strategic code reuse" works surprisingly well</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Present Day</h3>
+                    <p>Currently teaching machines to learn (they're not very good students yet)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="row mb-5">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">🛠️ Current Arsenal</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Python | Django (obviously)</li>
+                        <li class="list-group-item">SQL | NoSQL </li>
+                        <li class="list-group-item">Machine Learning (25% learned, 75% confused for now)</li>
+                        <li class="list-group-item">Data Science (Because numbers need love too)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">🌐 Digital Hangouts</h3>
+                    <div class="d-grid gap-2">
+                        <a href="https://www.prashant69.com.np" 
+                           class="btn btn-outline-dark btn-lg" 
+                           target="_blank">
+                           🌍 Portfolio (Works 99.9% of the time*)
+                        </a>
+                        <a href="https://github.com/pr45h4nt" 
+                           class="btn btn-dark btn-lg" 
+                           target="_blank">
+                           <i class="bi bi-github"></i> GitHub (Code Graveyard)
+                        </a>
+                    </div>
+                    <p class="text-muted mt-2 small">*0.1% chance you'll see a 404. Refresh and pretend you didn't.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Progress -->
+    <div class="card border-0 shadow-lg mb-5">
+        <div class="card-body p-5">
+            <h3 class="mb-4">📈 Current Learning Progress</h3>
+            <div class="progress mb-3" style="height: 30px;">
+                <div class="progress-bar bg-success" 
+                     role="progressbar" 
+                     style="width: 85%" 
+                     aria-valuenow="85" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                    Surviving Django Documentation - 85%
+                </div>
+            </div>
+            <div class="progress mb-3" style="height: 30px;">
+                <div class="progress-bar bg-info" 
+                     role="progressbar" 
+                     style="width: 60%" 
+                     aria-valuenow="60" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                    Understanding Machine Learning Memes - 60%
+                </div>
+            </div>
+            <div class="progress" style="height: 30px;">
+                <div class="progress-bar bg-warning" 
+                     role="progressbar" 
+                     style="width: 95%" 
+                     aria-valuenow="95" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                    Coffee Consumption - 95% (Always room for more)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Philosophy -->
+    <div class="text-center py-4 bg-light rounded-3 shadow-sm">
+        <h3 class="mb-3">💡 Development Philosophy</h3>
+        <p class="lead">
+            "Write code that works first,<br>
+            make it pretty later.<br>
+            Unless it's 3 AM.<br>
+            Then just push and pray." 🙏
+        </p>
+    </div>
+</div>
+
+<style>
+    .timeline {
+        border-left: 3px solid #0d6efd;
+        padding-left: 2rem;
+        margin-left: 1rem;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+    }
+    .timeline-item h3 {
+        position: relative;
+        left: -3.5rem;
+        background: white;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+        border: 2px solid #0d6efd;
+    }
+</style>
+{% endblock content %}

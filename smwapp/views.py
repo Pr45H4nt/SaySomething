@@ -165,3 +165,7 @@ def mytweets(request):
         'posts' : items
     }
     return render(request, "home.html", data)
+
+
+def aboutpage(request):
+    return render(request, 'about.html')

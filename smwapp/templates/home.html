@@ -1,44 +1,67 @@
 {% extends 'base.html' %}
-
 {% block title %}
-    HomePage
+HomePage
 {% endblock title %}
-    
-    {% block content %}
-    <center>
-<h1>Hello {{request.user | title}}</h1>
-{% load humanize %}
-
-{% for i in posts %}
-  
-    
-  <div class="container border shadow-lg p-3 mb-5 bg-white rounded">
-        
-        @{{i.user}}
-       <b> <p> {{i.status}}</p></b>
-        {{i.posted_date | naturaltime}} <br>
-       liked by {{i.no_of_likes}} people
-        <br><br>
-        
-        <button data-bs-toggle="collapse" data-bs-target="#demo">More options</button>
-
-<div id="demo" class="collapse">
-<ul>
-    <li><a href="{% url 'post' slug=i.slug %}">ReadMore</a></li>
-    
-    {% if i.user == request.user %}
-        
-    
-    <li><a href="{% url 'editpost' slug=i.slug %}">Edit</a></li>
-    <li><a href="{% url 'delete' slug=i.slug %}">Delete</a></li>
-    {% endif %}
-</ul>
-</div>
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold">Hello {{request.user | title}}</h1>
+                <p class="text-muted">See what people are saying today</p>
+            </div>
+            
+            {% load humanize %}
+            {% for i in posts %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                {{ i.user.username|first|upper }}
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0 fw-bold">@{{i.user}}</h6>
+                            <small class="text-muted">{{i.posted_date | naturaltime}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text fs-5">{{i.status}}</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="text-primary me-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                            </span>
+                            <span>{{i.no_of_likes}} likes</span>
+                        </div>
+                        
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{forloop.counter}}" data-bs-toggle="dropdown" aria-expanded="false">
+                                More options
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton{{forloop.counter}}">
+                                <li><a class="dropdown-item" href="{% url 'post' slug=i.slug %}">Read More</a></li>
+                                {% if i.user == request.user %}
+                                <li><a class="dropdown-item" href="{% url 'editpost' slug=i.slug %}">Edit</a></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'delete' slug=i.slug %}">Delete</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center p-5 bg-light rounded">
+                <p class="mb-0">No posts yet. Be the first to say something!</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-{% endfor %}
-</center>
-
-
-
-    {% endblock content %}
-        
+</div>
+{% endblock content %}
